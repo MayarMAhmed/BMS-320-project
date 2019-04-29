@@ -44,6 +44,9 @@ The Pipeline goes as follow:
 		samtools view -h mapped.bam | grep -e '^@' -e 'readName' |samtools stats | grep '^SN' | cut -f 2-
 		samtools view -h acceptedhits.bam | grep -v "NM:i:0" | samtools view -bSo filtered.bam -
 		samtools calmd [-EeubSr] [-C capQcoef] <aln.bam> <ref.fasta>
+		samtools view -h mapped.bam | samtools calmd -b - ref.f
+		samtools view -h -F 4 $bam_file | samtools calmd -b - ref.f
+
 
 		
 		
