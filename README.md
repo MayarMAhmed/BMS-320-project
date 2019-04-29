@@ -19,10 +19,14 @@ The Pipeline goes as follow:
 	index="$work_dir/genome-data/idx/grch38"
 
 	cd $work_dir
+	
 2. Downloading the sample of Interest from NCBI-SRA
-	fastq-dump -I --split-files $sample
+	
+        fastq-dump -I --split-files $sample
+
 3. Mapping the sample to the indexed reference human genome
-	hisat2 -q --phred33 \
+	
+        hisat2 -q --phred33 \
 		-x $index \
 		-1 $sample_1.fastq \
 		-2 $sample_2.fastq 
@@ -31,10 +35,10 @@ The Pipeline goes as follow:
 		> map.log
 
 4. Converting SAM to BAM
-	samtools view -hbo $sample.bam $sample.sam 
+	
+        samtools view -hbo $sample.bam $sample.sam 
 
-5. Extracting Records from the BAM file for Different Purposes
-	Insert some description here!
+5. Extracting Records from the BAM file for multiple mismatch (CIGAR)
+        
+        mkdir parsed
 
-	mkdir parsed
-		Purpose 4: getting the records with multiple mismatch (CIGAR)
