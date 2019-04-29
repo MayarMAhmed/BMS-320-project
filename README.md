@@ -1,10 +1,9 @@
 # BMS-320-project
 The Pipeline goes as follow:
 
-1. Downloading and Indexing the Reference Human Genome
-work_dir="$(pwd)"
-
-mkdir $work_dir/genome-data && cd $work_dir/genome-data
+	1. Downloading and Indexing the Reference Human Genome
+	work_dir="$(pwd)"
+	mkdir $work_dir/genome-data && cd $work_dir/genome-data
 
 # download ref.
 wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.28_GRCh38.p13/GCA_000001405.28_GRCh38.p13_genomic.fna.gz
