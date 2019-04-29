@@ -1,0 +1,8 @@
+The plan supposedly goes as follows
+1.To extract the multiple mismatches using MD
+
+2. JBrowse 1.8.0,to display alignment data, such as from BAM files. 
+This track type shows basepair-level mismatches, insertions, deletions, 
+and skipped regions between aligned reads and the reference, and highlights paired reads in red if their mates are missing.
+
+3.Investigate the locations and maybe use bamutil
