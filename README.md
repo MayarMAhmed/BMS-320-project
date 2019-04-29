@@ -1,7 +1,7 @@
 # BMS-320-project
 The Pipeline goes as follow:
 
-1. Downloading and Indexing the Reference Human Genome
+#1. Downloading and Indexing the Reference Human Genome
 	
 	work_dir="$(pwd)"
 	mkdir $work_dir/genome-data && cd $work_dir/genome-data
