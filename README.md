@@ -46,6 +46,15 @@ The Pipeline goes as follow:
 		samtools calmd [-EeubSr] [-C capQcoef] <aln.bam> <ref.fasta>
 		samtools view -h mapped.bam | samtools calmd -b - ref.f
 		samtools view -h -F 4 $bam_file | samtools calmd -b - ref.f
+		
+		#To add the MD tag
+		samtools calmd -u -A -r sample.bam sequence.fasta > mdsa.bam 
+		
+		#To extract the MD tag with the original CIGAR from the new file
+		samtools view -h mdsa.bam | cut -f 6,10,16
+		
+		#An attempt to get the MD tags with the mismatches
+		samtools view -h mdsa.bam | cut -f 6,16 | grep  -e 'MD:Z:**'
 
 
 		
