@@ -55,6 +55,16 @@ The Pipeline goes as follow:
 		
 		#An attempt to get the MD tags with the mismatches
 		samtools view -h mdsa.bam | cut -f 6,16 | grep  -e 'MD:Z:**'
+		
+		#The original file
+		samtools view -h mdsa.bam | cut -f 6,16 | wc -l
+		#its results 8219
+		
+		#first attempt
+		 samtools view -h mdsa.bam | cut -f 6,16 | grep  -e 'MD:Z:**' | wc -l 
+		8107
+
+
 
 
 		
