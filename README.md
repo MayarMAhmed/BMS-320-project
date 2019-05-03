@@ -63,6 +63,14 @@ The Pipeline goes as follow:
 		#first attempt
 		 samtools view -h mdsa.bam | cut -f 6,16 | grep  -e 'MD:Z:**' | wc -l 
 		8107
+		
+		#To get the MD with the mismatch
+		 samtools view -h mdsa.bam | cut -f 6,16 | awk 'length($2) >7 ' | wc -l
+		659
+		
+		samtools view -h mdsa.bam | cut -f 6,16 | awk 'length($2) >7 ' 
+
+
 
 
 
