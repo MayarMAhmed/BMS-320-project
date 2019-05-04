@@ -69,6 +69,10 @@ The Pipeline goes as follow:
 		659
 		
 		samtools view -h mdsa.bam | cut -f 6,16 | awk 'length($2) >7 ' 
+		
+		#To extract the position and inforation about reads with mismatch
+		samtools view -h mdsa.sorted.bam | awk 'length($16) > 7' | cut -f 1,3,4,6,7,10,16
+
 
 
 
