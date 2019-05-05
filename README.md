@@ -1,77 +1,50 @@
 # BMS-320-project
 The Pipeline goes as follow:
 
-#1. Downloading and Indexing the Reference Human Genome
+#1. Downloading SAM file of the sample from the NCBI-SRA website
+https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?run=SRR5083364
+		
+2. Converting SAM to BAM
 	
-	work_dir="$(pwd)"
-	mkdir $work_dir/genome-data && cd $work_dir/genome-data
+        samtools view -h -b -o sample.sam > sample.bam 
 
-	# download ref.
-	wget ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.28_GRCh38.p13/GCA_000001405.28_GRCh38.p13_genomic.fna.gz
-
-	# unzipping
-	gunzip GCA_000001405.28_GRCh38.p13_genomic.fna.gz
-	ref_fna="$work_dir/genome-data/GCA_000001405.28_GRCh38.p13_genomic.fna"
-
-	# hisat indexing
-	mkdir idx
-	hisat2-build $ref_fna idx/grch38
-	index="$work_dir/genome-data/idx/grch38"
-
-	cd $work_dir
-	
-2. Downloading the sample of Interest from NCBI-SRA
-	
-        fastq-dump -I --split-files $sample
-
-3. Mapping the sample to the indexed reference human genome
-	
-        hisat2 -q --phred33 \
-		-x $index \
-		-1 $sample_1.fastq \
-		-2 $sample_2.fastq 
-		-S $sample.sam \
-		--met-file map.met \
-		> map.log
-
-4. Converting SAM to BAM
-	
-        samtools view -hbo $sample.bam $sample.sam 
-
-5. Extracting Records from the BAM file for multiple mismatch (CIGAR)
+3. Extracting Records from the BAM file for multiple mismatch (CIGAR)
         
-		mkdir parsed	
-		samtools view -h mapped.bam | grep -e '^@' -e 'readName' |samtools stats | grep '^SN' | cut -f 2-
-		samtools view -h acceptedhits.bam | grep -v "NM:i:0" | samtools view -bSo filtered.bam -
-		samtools calmd [-EeubSr] [-C capQcoef] <aln.bam> <ref.fasta>
-		samtools view -h mapped.bam | samtools calmd -b - ref.f
-		samtools view -h -F 4 $bam_file | samtools calmd -b - ref.f
 		
 		#To add the MD tag
 		samtools calmd -u -A -r sample.bam sequence.fasta > mdsa.bam 
 		
-		#To extract the MD tag with the original CIGAR from the new file
+		#To extract the MD tag with the original CIGAR from the new file. To investigate the difference
 		samtools view -h mdsa.bam | cut -f 6,10,16
-		
-		#An attempt to get the MD tags with the mismatches
-		samtools view -h mdsa.bam | cut -f 6,16 | grep  -e 'MD:Z:**'
 		
 		#The original file
 		samtools view -h mdsa.bam | cut -f 6,16 | wc -l
 		#its results 8219
 		
+		#An attempt to get the MD tags with the mismatches only
+		samtools view -h mdsa.bam | cut -f 6,16 | grep  -e 'MD:Z:**'
+		
 		#first attempt
 		 samtools view -h mdsa.bam | cut -f 6,16 | grep  -e 'MD:Z:**' | wc -l 
 		8107
 		
-		#To get the MD with the mismatch
+		#To final attempt to get the MD with the mismatch
+		samtools view -h mdsa.bam | cut -f 6,16 | awk 'length($2) >7 ' 
+		
+		#The number of reads with mismatches 
 		 samtools view -h mdsa.bam | cut -f 6,16 | awk 'length($2) >7 ' | wc -l
 		659
 		
-		samtools view -h mdsa.bam | cut -f 6,16 | awk 'length($2) >7 ' 
+		#To sort the file with the MD tag to be easier to extract the positions
 		
-		#To extract the position and inforation about reads with mismatch
-		samtools view -h mdsa.sorted.bam | awk 'length($16) > 7' | cut -f 1,3,4,6,7,10,16
+		
+		#To index the file to maybe used in an attempt to visualize the mismatches
+		
+		
+		#To extract the position and inforation about reads with mismatch like the read name, reference name, size , location , CIGAR string , sequence and MD tag 
+		samtools view -h mdsa.sorted.bam | awk 'length($16) > 7' | cut -f 1,3,4,6,7,10,16 > info_mismatchreads.txt
+		
+		#To visualize the mismatch
 
 
 
