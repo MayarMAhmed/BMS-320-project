@@ -44,7 +44,26 @@ https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?run=SRR5083364
 		#To extract the position and inforation about reads with mismatch like the read name, reference name, size , location , CIGAR string , sequence and MD tag 
 		samtools view -h mdsa.sorted.bam | awk 'length($16) > 7' | cut -f 1,3,4,6,7,10,16 > info_mismatchreads.txt
 		
-		#To visualize the mismatch
+		#To extract reads with single mismatch with their location and their number
+		samtools view mdsa.bam | cut -f 4,6,16 |awk 'length($3)== 9 || length($3) == 10' > single_mismatch.txt
+		samtools view mdsa.bam | cut -f 4,6,16 |awk 'length($3)== 9 || length($3)==10' | wc -l
+		527
+
+		#To extract reads with double mismatch with their location and their number
+		samtools view mdsa.bam | cut -f 4,6,16 |awk 'length($3)> 10 && length($3)<14' > double_mismatch.txt
+		samtools view mdsa.bam | cut -f 4,6,16 |awk 'length($3)> 10 && length($3)<14' | wc -l
+		101
+
+		
+
+		
+		#To extract reades with 3 or 4 mismatches with their location and count them 
+		samtools view mdsa.bam | cut -f 4,6,16 |awk 'length($3)> 14' > multiple_mismatch.txt
+		 samtools view mdsa.bam | cut -f 4,6,16 |awk 'length($3)> 14' | wc -l
+		17
+
+
+
 
 
 
