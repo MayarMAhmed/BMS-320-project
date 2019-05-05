@@ -36,10 +36,10 @@ https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?run=SRR5083364
 		659
 		
 		#To sort the file with the MD tag to be easier to extract the positions
-		
+		samtools sort mdsa.bam > sorted_mdsa.bam
 		
 		#To index the file to maybe used in an attempt to visualize the mismatches
-		
+		samtools index -b sorted_mdsa.bam
 		
 		#To extract the position and inforation about reads with mismatch like the read name, reference name, size , location , CIGAR string , sequence and MD tag 
 		samtools view -h mdsa.sorted.bam | awk 'length($16) > 7' | cut -f 1,3,4,6,7,10,16 > info_mismatchreads.txt
