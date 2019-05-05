@@ -1,7 +1,7 @@
 # BMS-320-project
 The Pipeline goes as follow:
 
-#1. Downloading SAM file of the sample from the NCBI-SRA website
+1. Downloading SAM file of the sample from the NCBI-SRA website
 https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?run=SRR5083364
 		
 2. Converting SAM to BAM
